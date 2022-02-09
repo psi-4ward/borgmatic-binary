@@ -74,5 +74,6 @@ jobs:
           prerelease: false
           fail_on_unmatched_files: false
           tag_name: ${{ env.BUILD_TAG }}
+          body: https://projects.torsion.org/borgmatic-collective/borgmatic/releases/tag/${{ env.BUILD_TAG }}
           files: |
             borgmatic-*-*.tar.gz
