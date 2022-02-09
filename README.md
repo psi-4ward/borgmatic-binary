@@ -1,6 +1,12 @@
-[![Build Status](https://travis-ci.com/cmarquardt/borgmatic-binary.svg?branch=master)](https://travis-ci.com/cmarquardt/borgmatic-binary)
+[![Build and release](https://github.com/psi-4ward/borgmatic-binary/actions/workflows/build_and_realease.yml/badge.svg)](https://github.com/psi-4ward/borgmatic-binary/actions/workflows/build_and_realease.yml)
 
 # borgmatic-binary
+
+## Forked
+
+This Repo is forked from cmarquardt/borgmatic-binary and adds GitHub Actions to build the binaries:
+* When one pushes a Git-Tag. The Makefile `VERSION` gets updated before build.
+* Nightly check if there is a new [Upstream-Release](https://projects.torsion.org/borgmatic-collective/borgmatic/releases)
 
 ## Overview
 
