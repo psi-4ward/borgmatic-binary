@@ -30,7 +30,7 @@ jobs:
           
           [ -z "$UPSTREAM_RELEASE" ] && exit 1
           
-          export LOCAL_RELEASE=$(curl -sSL https://api.github.com/repos/psi-4ward/borgmatic-binary/releases/latest | jq .name)
+          export LOCAL_RELEASE=$(curl -sSL https://api.github.com/repos/psi-4ward/borgmatic-binary/releases/latest | jq -r .name)
           
           echo "LOCAL_RELEASE: $LOCAL_RELEASE"
           echo "UPSTREAM_RELEASE: $UPSTREAM_RELEASE"
