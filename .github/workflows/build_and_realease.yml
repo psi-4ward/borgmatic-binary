@@ -17,6 +17,7 @@ jobs:
           python-version: 3.6
 
       - name: 🌐 Derive upstream Tag
+        id: upstream_tag
         if: "! startsWith(github.ref, 'refs/tags/')"
         run: |
           set -eo pipefail
@@ -35,6 +36,7 @@ jobs:
             echo "::set-output name=BUILD::no"
             exit 0
           fi
+          echo Need to build $UPSTREAM_RELEASE
           echo "::set-output name=BUILD::yes"
           echo "BUILD_TAG=$UPSTREAM_RELEASE" >> $GITHUB_ENV 
 
@@ -48,7 +50,6 @@ jobs:
 
       - name: 🚚 Create new Tag
         if: "! startsWith(github.ref, 'refs/tags/') && steps.upstream_tag.outputs.BUILD == 'yes'"
-        id: upstream_tag
         run: |
           sed -i "s/VERSION := .*/VERSION := $UPSTREAM_RELEASE/" Makefile
           grep -F "VERSION :=" Makefile
