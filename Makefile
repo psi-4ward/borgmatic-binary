@@ -3,7 +3,7 @@
 
 # Version and architecture
 
-VERSION := 1.5.22
+VERSION := 
 ARCH    := $(shell ./config.guess)
 PYMAJOR := $(shell python -c "import sys;t='{v[0]}'.format(v=list(sys.version_info[:1]));sys.stdout.write(t)")
 
