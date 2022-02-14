@@ -48,22 +48,10 @@ jobs:
           echo "BUILD_TAG=${BUILD_TAG}" >> $GITHUB_ENV
           sed -i "s/VERSION := .*/VERSION := $BUILD_TAG/" Makefile
 
-      - name: 🚚 Create new Tag
-        if: "! startsWith(github.ref, 'refs/tags/') && steps.upstream_tag.outputs.BUILD == 'yes'"
-        run: |
-          sed -i "s/VERSION := .*/VERSION := ${{ env.BUILD_TAG }}/" Makefile
-          grep -F "VERSION :=" Makefile
-          git add Makefile
-          git config --global user.name "Gitlab-Action"
-          git config --global user.email "$OWNER@users.noreply.github.com"
-          git commit -am "Create Tag ${{ env.BUILD_TAG }}"
-          git tag ${{ env.BUILD_TAG }}
-          git push
-          git push --tags
-
       - name: 🛠 Build
         if: startsWith(github.ref, 'refs/tags/') || steps.upstream_tag.outputs.BUILD == 'yes'
         run: |
+          sed -i "s/VERSION := .*/VERSION := ${{ env.BUILD_TAG }}/" Makefile
           grep -F "VERSION :=" Makefile
           pip install pyinstaller
           make dist
@@ -71,6 +59,17 @@ jobs:
           echo "https://projects.torsion.org/borgmatic-collective/borgmatic/releases/tag/${{ env.BUILD_TAG }}" > RELEASE_BODY
           echo -e "\n---\n" >> RELEASE_BODY
           curl -sSL https://projects.torsion.org/api/v1/repos/borgmatic-collective/borgmatic/releases | jq -r ".[] | select(.tag_name == \"${{ env.BUILD_TAG }}\") | .body" >> RELEASE_BODY
+
+      - name: 🚚 Create new Tag
+        if: "! startsWith(github.ref, 'refs/tags/') && steps.upstream_tag.outputs.BUILD == 'yes'"
+        run: |
+          git add Makefile
+          git config --global user.name "Gitlab-Action"
+          git config --global user.email "$OWNER@users.noreply.github.com"
+          git commit -am "Create Tag ${{ env.BUILD_TAG }}"
+          git tag ${{ env.BUILD_TAG }}
+          git push
+          git push --tags
 
       - name: 🚀 Release
         if: startsWith(github.ref, 'refs/tags/') || steps.upstream_tag.outputs.BUILD == 'yes'
