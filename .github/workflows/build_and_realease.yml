@@ -63,8 +63,6 @@ jobs:
       - name: 🚚 Create new Tag
         if: "! startsWith(github.ref, 'refs/tags/') && steps.upstream_tag.outputs.BUILD == 'yes'"
         run: |
-          sed -i "s/VERSION := .*/VERSION := ${{ env.BUILD_TAG }}/" Makefile
-          grep -F "VERSION :=" Makefile
           git add Makefile
           git config --global user.name "Gitlab-Action"
           git config --global user.email "$OWNER@users.noreply.github.com"
