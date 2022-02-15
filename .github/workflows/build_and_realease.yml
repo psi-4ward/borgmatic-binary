@@ -4,7 +4,7 @@ on:
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '42 2 * * *'
 
 jobs:
   build:
